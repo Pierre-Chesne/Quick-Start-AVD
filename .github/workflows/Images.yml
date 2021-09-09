@@ -3,8 +3,7 @@ name: Build Image Azure Virtual Desktop
 on: workflow_dispatch
 
 env:
-  #
-
+# Variables Image
 
 jobs:
 
