@@ -19,4 +19,4 @@ jobs:
 
       - name: Check Version
         run: |
-          $PSVersionTable
+          write-host 'Import-Module Az.Accounts' -ForegroundColor red -BackgroundColor white
