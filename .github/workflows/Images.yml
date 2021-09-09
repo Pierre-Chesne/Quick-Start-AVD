@@ -24,8 +24,8 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Install-Module Az.Accounts -Force
-            Import-Module Az.Accounts             
+            #Install-Module Az.Accounts -Force
+            #Import-Module Az.Accounts             
             $currentAzContext = Get-AzContext
             $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
             $location="${{ env.LOCATION }}"
@@ -41,5 +41,4 @@ jobs:
           inlineScript: |
             $timeInt=$(get-date -UFormat "%s")
             $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
-            $idenityName="aibIdentity"+$timeInt
-            $idenityName
+            $idenityName="aibIdentity"+$timeInt          
