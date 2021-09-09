@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Images-00"
+  RG_NAME_IMAGE: "Rg-AVD-Images-01"
   IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
 
 jobs:
@@ -42,5 +42,5 @@ jobs:
             $timeInt=$(get-date -UFormat "%s")
             $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
             $idenityName="aibIdentity"+$timeInt
-            $idenityName
+            New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
           azPSVersion: 'latest'            
