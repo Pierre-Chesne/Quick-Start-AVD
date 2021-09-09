@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Image"
+  RG_NAME_IMAGE: "Rg-AVD-Images"
   IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
 
 jobs:
@@ -24,8 +24,8 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            #Install-Module Az.Accounts -Force
-            #Import-Module Az.Accounts             
+            Install-Module Az.Accounts -Force
+            Import-Module Az.Accounts             
             $currentAzContext = Get-AzContext
             $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
             $location="${{ env.LOCATION }}"
