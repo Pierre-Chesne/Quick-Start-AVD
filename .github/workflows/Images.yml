@@ -16,5 +16,5 @@ jobs:
 
       - name: Prerequis
         run: |
-          'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease}
+          'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
           Get-Module -ListAvailable -All | Where-Object {($_.Name -like 'Az.*') -and ($_.Version -ne '0.0')} | Sort-Object
