@@ -17,6 +17,7 @@ jobs:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           enable-AzPSSession: true
 
-      - name: Check Version
+      - name: Prerequis
         run: |
-          write-host 'Import-Module Az.Accounts' -ForegroundColor red -BackgroundColor white
+          write-host 'Import-Module Az.Accounts'
+          Import-Module Az.Accounts
