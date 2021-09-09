@@ -21,7 +21,9 @@ jobs:
       - name: Prerequis
         run: |
           Install-Module Az.Accounts -Force
+          Install-Module -Name Az -Force
           Import-Module Az.Accounts
+          Import-Module Az
           $currentAzContext = Get-AzContext
           $imageResourceGroup="wvdImageDemoRg"
           $location="westus2"
