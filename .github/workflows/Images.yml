@@ -3,9 +3,9 @@ name: Build Image Azure Virtual Desktop
 on: workflow_dispatch
 
 env:
-  LOCATION: 'westeurope'
-  RG_NAME_IMAGE: 'wvdImageDemoRg'
-  IMAGE_TEMPLATE_Name: 'wvd10ImageTemplate01'
+  LOCATION: "westeurope"
+  RG_NAME_IMAGE: "wvdImageDemoRg"
+  IMAGE_TEMPLATE_Name: "wvd10ImageTemplate01"
 
 jobs:
 
@@ -27,7 +27,8 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Install-Module Az.Accounts -Force            
+            #Install-Module Az.Accounts -Force
+            #Import-Module Az.Accounts             
             $currentAzContext = Get-AzContext
             $imageResourceGroup=${{ env.RG_NAME_IMAGE }}
             $location=${{ env.LOCATION }}
