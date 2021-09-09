@@ -33,7 +33,7 @@ jobs:
             $imageResourceGroup=${{ env.RG_NAME_IMAGE }}
             $location=${{ env.LOCATION }}
             $subscriptionID=$currentAzContext.Subscription.Id
-            $imageTemplateName=$ {{ env.IMAGE_TEMPLATE_Name}}
+            $imageTemplateName=${{ env.IMAGE_TEMPLATE_Name}}
             $runOutputName="sigOutput"
             New-AzResourceGroup -Name $imageResourceGroup -Location $location          
           azPSVersion: 'latest'
