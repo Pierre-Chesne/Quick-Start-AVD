@@ -22,4 +22,5 @@ jobs:
 
       - name: Prerequis
         run: |
-          Install-Module Az.Accounts
+          Install-Module Az.Accounts -Confirm
+          Import-Module Az.Accounts
