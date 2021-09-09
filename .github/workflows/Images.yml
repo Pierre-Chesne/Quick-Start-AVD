@@ -35,5 +35,5 @@ jobs:
             $subscriptionID=$currentAzContext.Subscription.Id
             $imageTemplateName=${{ env.IMAGE_TEMPLATE_Name}}
             $runOutputName="sigOutput"
-            New-AzResourceGroup -Name $imageResourceGroup -Location $location          
+            New-AzResourceGroup -Name "toto-rg" -Location $location          
           azPSVersion: 'latest'
