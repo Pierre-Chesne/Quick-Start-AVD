@@ -2,8 +2,6 @@ name: Build Image Azure Virtual Desktop
 
 on: workflow_dispatch
 
-
-
 jobs:
 
   Buid_Image_AVD:
@@ -22,5 +20,5 @@ jobs:
 
       - name: Prerequis
         run: |
-          Install-Module Az.Accounts -Confirm
+          Install-Module Az.Accounts -Force
           Import-Module Az.Accounts
