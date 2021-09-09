@@ -34,3 +34,12 @@ jobs:
             $runOutputName="sigOutput"
             New-AzResourceGroup -Name $imageResourceGroup -Location $location          
           azPSVersion: 'latest'
+       
+      - name: Identite
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            $timeInt=$(get-date -UFormat "%s")
+            $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
+            $idenityName="aibIdentity"+$timeInt
+            $idenityName
