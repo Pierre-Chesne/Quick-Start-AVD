@@ -16,3 +16,7 @@ jobs:
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           enable-AzPSSession: true
+
+      - name: Check Version
+        run: |
+          $PSVersionTable
