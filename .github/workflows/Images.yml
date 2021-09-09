@@ -2,6 +2,11 @@ name: Build Image Azure Virtual Desktop
 
 on: workflow_dispatch
 
+env:
+  LOCATION: 'westeurope'
+  RG_NAME_IMAGE: 'wvdImageDemoRg'
+  IMAGE_TEMPLATE_Name: 'wvd10ImageTemplate01'
+
 jobs:
 
   Buid_Image_AVD:
@@ -24,10 +29,10 @@ jobs:
           inlineScript: |
             Install-Module Az.Accounts -Force            
             $currentAzContext = Get-AzContext
-            $imageResourceGroup="wvdImageDemoRg"
-            $location="westus2"
+            $imageResourceGroup=${{ env.RG_NAME_IMAGE }}
+            $location=${{ env.LOCATION }}
             $subscriptionID=$currentAzContext.Subscription.Id
-            $imageTemplateName="wvd10ImageTemplate01"
+            $imageTemplateName=$ {{ env.IMAGE_TEMPLATE_Name}}
             $runOutputName="sigOutput"
             New-AzResourceGroup -Name $imageResourceGroup -Location $location          
           azPSVersion: 'latest'
