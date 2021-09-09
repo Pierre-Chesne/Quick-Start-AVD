@@ -4,8 +4,8 @@ on: workflow_dispatch
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "wvdImageDemoRg"
-  IMAGE_TEMPLATE_Name: "wvd10ImageTemplate01"
+  RG_NAME_IMAGE: "Rg-AVD-Image"
+  IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
 
 jobs:
 
@@ -19,9 +19,6 @@ jobs:
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           enable-AzPSSession: true
-
-      - name: Recuperation du Repo
-        uses: actions/checkout@v2  
 
       - name: Prerequis
         uses: azure/powershell@v1
