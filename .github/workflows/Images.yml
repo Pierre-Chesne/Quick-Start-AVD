@@ -17,7 +17,9 @@ jobs:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           enable-AzPSSession: true
 
+      - name: Recuperation du Repo
+        uses: actions/checkout@v2  
+
       - name: Prerequis
         run: |
-          write-host 'Import-Module Az.Accounts'
-          Import-Module Az.Accounts
+          ./Image/Image.ps1
