@@ -22,8 +22,7 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            Install-Module Az.Accounts -Force
-            Install-Module -Name Az -Force
+            Install-Module Az.Accounts -Force            
             $currentAzContext = Get-AzContext
             $imageResourceGroup="wvdImageDemoRg"
             $location="westus2"
