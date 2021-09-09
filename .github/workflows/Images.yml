@@ -24,25 +24,4 @@ jobs:
         uses: azure/powershell@v1
         with:
           inlineScript: |
-            #Install-Module Az.Accounts -Force
-            #Import-Module Az.Accounts             
-            $currentAzContext = Get-AzContext
-            $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
-            $location="${{ env.LOCATION }}"
-            $subscriptionID=$currentAzContext.Subscription.Id
-            $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
-            $runOutputName="sigOutput"
-            New-AzResourceGroup -Name $imageResourceGroup -Location $location          
-          azPSVersion: 'latest'
-       
-      - name: Identite
-        uses: azure/powershell@v1
-        with:
-          inlineScript: |
-            $timeInt=$(get-date -UFormat "%s")
-            $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
-            $idenityName="aibIdentity"+$timeInt
-            Install-Module -name Az.ManagedServiceIdentity -Force
-            Import-Module Az.ManagedServiceIdentity
-            New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
-          azPSVersion: 'latest'            
+            $PSVersionTable
