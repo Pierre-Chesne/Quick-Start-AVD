@@ -22,4 +22,4 @@ jobs:
 
       - name: Prerequis
         run: |
-          ./Image/Image.ps1
+          Install-Module Az.Accounts
