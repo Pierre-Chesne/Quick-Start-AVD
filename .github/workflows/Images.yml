@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Images-04"
+  RG_NAME_IMAGE: "Rg-AVD-Images-05"
   IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
 
 jobs:
@@ -14,7 +14,37 @@ jobs:
 
     steps:
 
-      - name: Prerequis
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          enable-AzPSSession: true    
+
+      - name: Install Module PowerShell
         run: |
-          'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
-          Get-Module -ListAvailable -All | Where-Object {($_.Name -like 'Az.*') -and ($_.Version -ne '0.0')} | Sort-Object
+          'Az.ImageBuilder', 'Az.ManagedServiceIdentity', | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
+      
+      - name: Prerequis
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |            
+            $currentAzContext = Get-AzContext
+            $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+            $location="${{ env.LOCATION }}"
+            $subscriptionID=$currentAzContext.Subscription.Id
+            $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
+            $runOutputName="sigOutput"
+            New-AzResourceGroup -Name $imageResourceGroup -Location $location          
+          azPSVersion: 'latest'
+
+      - name: Identite
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |
+            $timeInt=$(get-date -UFormat "%s")
+            $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
+            $idenityName="aibIdentity"+$timeInt
+            Install-Module -name Az.ManagedServiceIdentity -Force
+            Import-Module Az.ManagedServiceIdentity
+            New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
+          azPSVersion: 'latest'
