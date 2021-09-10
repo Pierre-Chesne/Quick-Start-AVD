@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Images-001"
+  RG_NAME_IMAGE: "Rg-AVD-Images-0001"
   IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
 
 jobs:
@@ -45,4 +45,5 @@ jobs:
           cat aibRoleImageCreation.json
           New-AzRoleDefinition -InputFile  ./aibRoleImageCreation.json
           $idenityNamePrincipalId
+          Start-Sleep -s 15
           New-AzRoleAssignment -ObjectId $idenityNamePrincipalId -RoleDefinitionName $imageRoleDefName -Scope "/subscriptions/$subscriptionID/resourceGroups/$imageResourceGroup"
