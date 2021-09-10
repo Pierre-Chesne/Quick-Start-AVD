@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Images-05"
+  RG_NAME_IMAGE: "Rg-AVD-Images-06"
   IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
 
 jobs:
@@ -38,13 +38,11 @@ jobs:
           azPSVersion: 'latest'
 
       - name: Identite
-        uses: azure/powershell@v1
-        with:
-          inlineScript: |
-            $timeInt=$(get-date -UFormat "%s")
-            $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
-            $idenityName="aibIdentity"+$timeInt
-            Install-Module -name Az.ManagedServiceIdentity -Force
-            Import-Module Az.ManagedServiceIdentity
-            New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
-          azPSVersion: 'latest'
+        run: |
+          $timeInt=$(get-date -UFormat "%s")
+          $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
+          $idenityName="aibIdentity"+$timeInt
+          Install-Module -name Az.ManagedServiceIdentity -Force
+          Import-Module Az.ManagedServiceIdentity
+          New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
+          
