@@ -30,3 +30,7 @@ jobs:
           $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
           $runOutputName="sigOutput"
           New-AzResourceGroup -Name $imageResourceGroup -Location $location
+          $timeInt=$(get-date -UFormat "%s")
+          $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
+          $idenityName="aibIdentity"+$timeInt
+          New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
