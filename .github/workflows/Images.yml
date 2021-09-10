@@ -12,7 +12,13 @@ jobs:
   Buid_Image_AVD:
     runs-on: windows-2019
 
-    steps:  
+    steps:
+
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          enable-AzPSSession: true  
 
       - name: Installation des modules PowerShell
         run: |
