@@ -20,9 +20,9 @@ jobs:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           enable-AzPSSession: true    
 
-      - name: Install Module PowerShell
+      - name: Installation des modules PowerShell
         run: |
-          'Az.ImageBuilder', 'Az.ManagedServiceIdentity', | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
+          'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
       
       - name: Prerequis
         uses: azure/powershell@v1
