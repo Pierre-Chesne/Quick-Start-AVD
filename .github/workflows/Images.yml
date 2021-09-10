@@ -16,6 +16,5 @@ jobs:
 
       - name: Installation des modules PowerShell
         run: |
-          'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
-          Install-Module -Name Az -Repository PSGallery -Force
+          'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}          
           Get-Module -ListAvailable -All | Where-Object {($_.Name -like 'Az.*') -and ($_.Version -ne '0.0')} | Sort-Object
