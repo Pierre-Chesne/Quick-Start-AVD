@@ -17,4 +17,10 @@ jobs:
       - name: Installation des modules PowerShell
         run: |
           'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}          
-          Get-Module -ListAvailable -All | Where-Object {($_.Name -like 'Az.*') -and ($_.Version -ne '0.0')} | Sort-Object
+          $currentAzContext = Get-AzContext
+          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+          $location="${{ env.LOCATION }}"
+          $subscriptionID=$currentAzContext.Subscription.Id
+          $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
+          $runOutputName="sigOutput"
+          New-AzResourceGroup -Name $imageResourceGroup -Location $location
