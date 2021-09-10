@@ -42,7 +42,6 @@ jobs:
           $timeInt=$(get-date -UFormat "%s")
           $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
           $idenityName="aibIdentity"+$timeInt
-          Install-Module -name Az.ManagedServiceIdentity -Force
-          Import-Module Az.ManagedServiceIdentity
+          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
           New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
           
