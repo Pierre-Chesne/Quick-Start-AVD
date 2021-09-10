@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Images-06"
+  RG_NAME_IMAGE: "Rg-AVD-Images-07"
   IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
 
 jobs:
@@ -37,11 +37,17 @@ jobs:
             New-AzResourceGroup -Name $imageResourceGroup -Location $location          
           azPSVersion: 'latest'
 
-      - name: Identite
+      - name: Identite et role
         run: |
           $timeInt=$(get-date -UFormat "%s")
           $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
           $idenityName="aibIdentity"+$timeInt
           $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
           New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
-          
+          $idenityNameResourceId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).Id
+          $idenityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).PrincipalId
+          $aibRoleImageCreationUrl="https://raw.githubusercontent.com/azure/azvmimagebuilder/master/solutions/12_Creating_AIB_Security_Roles/aibRoleImageCreation.json"
+          $aibRoleImageCreationPath = "aibRoleImageCreation.json"
+          Invoke-WebRequest -Uri $aibRoleImageCreationUrl -OutFile $aibRoleImageCreationPath -UseBasicParsing
+          ls
+
