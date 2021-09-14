@@ -57,3 +57,49 @@ jobs:
           cat aibRoleImageCreation.json
           Get-Module -ListAvailable -All | Where-Object {($_.Name -like 'Az.*') -and ($_.Version -ne '0.0')} | Sort-Object
           #New-AzRoleDefinition -InputFile  ./aibRoleImageCreation.json
+
+  Run_AIB:
+    needs: Buid_Image_AVD
+    runs-on: windows-2019
+
+    steps:
+
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          enable-AzPSSession: true    
+
+      - name: Download Repo content for template
+        uses: actions/checkout@v2
+
+      - name: Configure and submit template
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |            
+                  $currentAzContext = Get-AzContext
+                  $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+                  $location="${{ env.LOCATION }}"
+                  $subscriptionID=$currentAzContext.Subscription.Id
+                  $imageDefName="${{ env.IMAGE_TEMPLATE_Name}}"
+                  $runOutputName="sigOutput"
+                  $sigGalleryName=""
+                  $idenityNameResourceId
+                  $templateFilePath="./ARM/AVDTemplate.json"
+                  $share_location="storage.file.core.windows.net"
+                  $share_folder="fslogix"
+                  ((Get-Content -path $templateFilePath -Raw) -replace '<subscriptionID>',$subscriptionID) | Set-Content -Path $templateFilePath
+                  ((Get-Content -path $templateFilePath -Raw) -replace '<rgName>',$imageResourceGroup) | Set-Content -Path $templateFilePath
+                  ((Get-Content -path $templateFilePath -Raw) -replace '<region>',$location) | Set-Content -Path $templateFilePath
+                  ((Get-Content -path $templateFilePath -Raw) -replace '<share_location>',$share_location) | Set-Content -Path $templateFilePath
+                  ((Get-Content -path $templateFilePath -Raw) -replace '<share_folder>',$share_folder) | Set-Content -Path $templateFilePath
+                  ((Get-Content -path $templateFilePath -Raw) -replace '<runOutputName>',$runOutputName) | Set-Content -Path $templateFilePath
+                  ((Get-Content -path $templateFilePath -Raw) -replace '<imageDefName>',$imageDefName) | Set-Content -Path $templateFilePath
+                  ((Get-Content -path $templateFilePath -Raw) -replace '<sharedImageGalName>',$sigGalleryName) | Set-Content -Path $templateFilePath
+                  ((Get-Content -path $templateFilePath -Raw) -replace '<region1>',$location) | Set-Content -Path $templateFilePath
+                  ((Get-Content -path $templateFilePath -Raw) -replace '<imgBuilderId>',$idenityNameResourceId) | Set-Content -Path $templateFilePath
+                  New-AzResourceGroupDeployment -ResourceGroupName $imageResourceGroup -TemplateFilePath $templateFilePath -api-version "2020-02-14" -imageTemplateName  $imageDefName -svclocation $location
+          azPSVersion: 'latest'  
+      
+
+      

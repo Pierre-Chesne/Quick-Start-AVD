@@ -49,7 +49,7 @@
                 "type": "PlatformImage",
                     "publisher": "MicrosoftWindowsDesktop",
                     "offer": "windows-10",
-                    "sku": "20h1-ent",
+                    "sku": "21h1-evd-g2",
                     "version": "latest"
             },
             "customize": [
@@ -61,6 +61,20 @@
                         "runElevated": true,
                         "runAsSystem": true,
                         "scriptUri": "https://raw.githubusercontent.com/danielsollondon/azvmimagebuilder/master/solutions/14_Building_Images_WVD/0_installConfFsLogix.ps1"
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "enableFsLogix",
+                        "inline": "& reg add HKLM\\SOFTWARE\\FSLogix\\Profiles /v Enabled /t REG_DWORD /d 0x00000001",
+                        "runElevated": true,
+                        "runAsSystem": true
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "configureFsLogix",
+                        "inline": "& reg add HKLM\\SOFTWARE\\FSLogix\\Profiles /v VHDLocations /t REG_MULTI_SZ /d \\\\<share_location>\\<share_folder> ",
+                        "runElevated": true,
+                        "runAsSystem": true
                     },
                     {
                         "type": "PowerShell",
