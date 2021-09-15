@@ -96,7 +96,8 @@ jobs:
           $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
           $runOutputName="sigOutput"
           $sigGalleryName="${{ env.SIG_NAME}}"
-          $idenityNameResourceId="ca84ea04-c7e0-44f9-b1c7-dc2e82de93e0"
+          $idenityNameResourceId="/subscriptions/"+$subscriptionID+"/resourcegroups/"+$imageResourceGroup+"/providers/M
+                    icrosoft.ManagedIdentity/userAssignedIdentities/aibIdentity1631636201"
           $templateFilePath="./ARM/AVDTemplate.json"
           $share_location="storage.file.core.windows.net"
           $share_folder="fslogix"
