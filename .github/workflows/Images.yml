@@ -86,7 +86,8 @@ jobs:
 #          New-AzGalleryImageDefinition -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location -Name $imageDefName -OsState generalized -OsType Windows -Publisher 'myCo' -Offer 'Windows' -Sku '10wvd'   
 
       - name: Configure and submit template
-        run: |            
+        run: |
+          'Az.Accounts' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}            
           $currentAzContext = Get-AzContext
           $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
           $location="${{ env.LOCATION }}"
