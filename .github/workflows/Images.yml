@@ -75,15 +75,15 @@ jobs:
       - name: Download Repo content for template
         uses: actions/checkout@v2
 
-      - name: Shared Image $sigGalleryName
-        run: |
-          'Az.Compute' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
-          $sigGalleryName="${{ env.SIG_NAME}}"
-          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
-          $location="${{ env.LOCATION }}"
-          $imageDefName="${{ env.IMAGE_DEF_NAME}}"
-          New-AzGallery -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location
-          New-AzGalleryImageDefinition -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location -Name $imageDefName -OsState generalized -OsType Windows -Publisher 'myCo' -Offer 'Windows' -Sku '10wvd'   
+#      - name: Shared Image $sigGalleryName
+#        run: |
+#          'Az.Compute' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
+#          $sigGalleryName="${{ env.SIG_NAME}}"
+#          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+#          $location="${{ env.LOCATION }}"
+#          $imageDefName="${{ env.IMAGE_DEF_NAME}}"
+#          New-AzGallery -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location
+#          New-AzGalleryImageDefinition -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location -Name $imageDefName -OsState generalized -OsType Windows -Publisher 'myCo' -Offer 'Windows' -Sku '10wvd'   
 
       - name: Configure and submit template
         run: |            
@@ -109,7 +109,7 @@ jobs:
           ((Get-Content -path $templateFilePath -Raw) -replace '<sharedImageGalName>',$sigGalleryName) | Set-Content -Path $templateFilePath
           ((Get-Content -path $templateFilePath -Raw) -replace '<region1>',$location) | Set-Content -Path $templateFilePath
           ((Get-Content -path $templateFilePath -Raw) -replace '<imgBuilderId>',$idenityNameResourceId) | Set-Content -Path $templateFilePath
-          New-AzResourceGroupDeployment -ResourceGroupName $imageResourceGroup -TemplateFilePath $templateFilePath -api-version "2020-02-14" -imageTemplateName  $imageTemplateName -svclocation $location
+          New-AzResourceGroupDeployment -ResourceGroupName $imageResourceGroup -TemplateFilePath $templateFilePath -api-version "2020-02-14" -imageTemplateName $imageTemplateName -svclocation $location
             
       
 
