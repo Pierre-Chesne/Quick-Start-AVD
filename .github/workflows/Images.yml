@@ -92,9 +92,9 @@ jobs:
           $location="${{ env.LOCATION }}"
           $subscriptionID=$currentAzContext.Subscription.Id
           $imageDefName="${{ env.IMAGE_DEF_NAME}}"
-          $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}""
+          $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
           $runOutputName="sigOutput"
-          $sigGalleryName=""
+          $sigGalleryName="${{ env.SIG_NAME}}"
           $idenityNameResourceId="ca84ea04-c7e0-44f9-b1c7-dc2e82de93e0"
           $templateFilePath="./ARM/AVDTemplate.json"
           $share_location="storage.file.core.windows.net"
