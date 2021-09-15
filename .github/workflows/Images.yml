@@ -96,7 +96,7 @@ jobs:
           $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
           $runOutputName="sigOutput"
           $sigGalleryName="${{ env.SIG_NAME}}"
-          $idenityNameResourceId="/subscriptions/"+$subscriptionID+"/resourcegroups/"+$imageResourceGroup+"/providers/M
+          $idenityNameResourceId="/subscriptions/"+$subscriptionID+"/resourceGroups/"+$imageResourceGroup+"/providers/M
                     icrosoft.ManagedIdentity/userAssignedIdentities/aibIdentity1631636201"
           $templateFilePath="./ARM/AVDTemplate.json"
           $share_location="storage.file.core.windows.net"
