@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Images-00"
+  RG_NAME_IMAGE: "Rg-AVD-Images-000101"
   IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
   SIG_NAME: "myaibsig01"
   IMAGE_DEF_NAME: "win10avd"
@@ -77,6 +77,7 @@ jobs:
 
       - name: Shared Image $sigGalleryName
         run: |
+          'Az.Compute' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
           $sigGalleryName="${{ env.SIG_NAME}}"
           $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
           $location="${{ env.LOCATION }}"
