@@ -81,7 +81,7 @@ jobs:
           $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
           $location="${{ env.LOCATION }}"
           $imageDefName="${{ env.IMAGE_DEF_NAME}}"
-          New-AzGallery -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup  -Location $location
+          New-AzGallery -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location
           New-AzGalleryImageDefinition -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location -Name $imageDefName -OsState generalized -OsType Windows -Publisher 'myCo' -Offer 'Windows' -Sku '10wvd'   
 
       - name: Configure and submit template
