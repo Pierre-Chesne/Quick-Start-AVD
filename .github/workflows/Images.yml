@@ -87,7 +87,7 @@ jobs:
 
       - name: Configure and submit template
         run: |
-          'Az.Accounts' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}            
+          'Az.Accounts', "Az.Resources" | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}            
           $currentAzContext = Get-AzContext
           $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
           $location="${{ env.LOCATION }}"
