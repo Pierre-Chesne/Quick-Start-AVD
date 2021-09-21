@@ -119,7 +119,7 @@
                     "galleryImageId": "/subscriptions/<subscriptionID>/resourceGroups/<rgName>/providers/Microsoft.Compute/galleries/<sharedImageGalName>/images/<imageDefName>",
                     "runOutputName": "<runOutputName>",
                     "artifactTags": {
-                        "source": "wvd10",
+                        "source": "avd10",
                         "baseosimg": "windows10"
                     },
                     "replicationRegions": [
