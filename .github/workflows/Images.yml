@@ -12,57 +12,57 @@ env:
 
 jobs:
 
- # Buid_Image_AVD:
- #   runs-on: windows-2019
+ Buid_Image_AVD:
+   runs-on: windows-2019
 
-#    steps:
+    steps:
 
-#      - name: Log in with Azure
-#        uses: azure/login@v1
-#        with:
-#          creds: '${{ secrets.AZURE_CREDENTIALS }}'
-#          enable-AzPSSession: true    
+      - name: Log in with Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          enable-AzPSSession: true    
 
-#      - name: Installation des modules PowerShell
-#        run: |
-#          'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
+      - name: Installation des modules PowerShell
+        run: |
+          'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
       
-#      - name: Prerequis
-#        uses: azure/powershell@v1
-#        with:
-#          inlineScript: |            
-#            $currentAzContext = Get-AzContext
-#            $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
-#            $location="${{ env.LOCATION }}"
-#            $subscriptionID=$currentAzContext.Subscription.Id
-#            $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
-#            $runOutputName="sigOutput"
-#            New-AzResourceGroup -Name $imageResourceGroup -Location $location          
-#          azPSVersion: 'latest'
+      - name: Prerequis
+        uses: azure/powershell@v1
+        with:
+          inlineScript: |            
+            $currentAzContext = Get-AzContext
+            $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+            $location="${{ env.LOCATION }}"
+            $subscriptionID=$currentAzContext.Subscription.Id
+            $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
+            $runOutputName="sigOutput"
+            New-AzResourceGroup -Name $imageResourceGroup -Location $location          
+          azPSVersion: 'latest'
 
-#      - name: Identite et role
-#        run: |
-#          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
-#          $currentAzContext = Get-AzContext
-#          $subscriptionID=$currentAzContext.Subscription.Id
-#          $timeInt=$(get-date -UFormat "%s")
-#          $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
-#          $idenityName="aibIdentity"+$timeInt          
-#          New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
-#          $idenityNameResourceId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).Id
-#          $idenityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).PrincipalId
-#          $aibRoleImageCreationUrl="https://raw.githubusercontent.com/azure/azvmimagebuilder/master/solutions/12_Creating_AIB_Security_Roles/aibRoleImageCreation.json"
-#          $aibRoleImageCreationPath = "aibRoleImageCreation.json"
-#          Invoke-WebRequest -Uri $aibRoleImageCreationUrl -OutFile $aibRoleImageCreationPath -UseBasicParsing
-#          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace '<subscriptionID>', $subscriptionID) | Set-Content -Path $aibRoleImageCreationPath
-#          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace '<rgName>', $imageResourceGroup) | Set-Content -Path $aibRoleImageCreationPath
-#          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace 'Azure Image Builder Service Image Creation Role', $imageRoleDefName) | Set-Content -Path $aibRoleImageCreationPath
-#          cat aibRoleImageCreation.json
-#          Get-Module -ListAvailable -All | Where-Object {($_.Name -like 'Az.*') -and ($_.Version -ne '0.0')} | Sort-Object
-          #New-AzRoleDefinition -InputFile  ./aibRoleImageCreation.json
+      - name: Identite et role
+        run: |
+          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+          $currentAzContext = Get-AzContext
+          $subscriptionID=$currentAzContext.Subscription.Id
+          $timeInt=$(get-date -UFormat "%s")
+          $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
+          $idenityName="aibIdentity"+$timeInt          
+          New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
+          $idenityNameResourceId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).Id
+          $idenityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).PrincipalId
+          $aibRoleImageCreationUrl="https://raw.githubusercontent.com/azure/azvmimagebuilder/master/solutions/12_Creating_AIB_Security_Roles/aibRoleImageCreation.json"
+          $aibRoleImageCreationPath = "aibRoleImageCreation.json"
+          Invoke-WebRequest -Uri $aibRoleImageCreationUrl -OutFile $aibRoleImageCreationPath -UseBasicParsing
+          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace '<subscriptionID>', $subscriptionID) | Set-Content -Path $aibRoleImageCreationPath
+          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace '<rgName>', $imageResourceGroup) | Set-Content -Path $aibRoleImageCreationPath
+          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace 'Azure Image Builder Service Image Creation Role', $imageRoleDefName) | Set-Content -Path $aibRoleImageCreationPath
+          cat aibRoleImageCreation.json
+          Get-Module -ListAvailable -All | Where-Object {($_.Name -like 'Az.*') -and ($_.Version -ne '0.0')} | Sort-Object
+          New-AzRoleDefinition -InputFile  ./aibRoleImageCreation.json
 
   Run_AIB:
-#    needs: Buid_Image_AVD
+    needs: Buid_Image_AVD
     runs-on: windows-2019
 
     steps:
@@ -115,36 +115,3 @@ jobs:
           ((Get-Content -path $templateFilePath -Raw) -replace '<imgBuilderId>',$idenityNameResourceId) | Set-Content -Path $templateFilePath
           New-AzResourceGroupDeployment -ResourceGroupName $imageResourceGroup -TemplateFile $templateFilePath -api-version "2020-02-14" -imageTemplateName $imageTemplateName -svclocation $location
           Start-AzImageBuilderTemplate -ResourceGroupName $imageResourceGroup -Name $imageTemplateName -NoWait
-            
-      
-
-      
-=======
-      - name: Prerequis - Managed Identity - Custom Role - Resource Group
-        run: |          
-          'Az.ImageBuilder', 'Az.ManagedServiceIdentity', 'Az.Resources' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}         
-          $currentAzContext = Get-AzContext
-          $subscriptionID=$currentAzContext.Subscription.Id       
-          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
-          $location="${{ env.LOCATION }}"          
-          $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
-          $runOutputName="sigOutput"
-          New-AzResourceGroup -Name $imageResourceGroup -Location $location
-          $timeInt=$(get-date -UFormat "%s")
-          $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
-          $idenityName="aibIdentity"+$timeInt
-          New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
-          $idenityNameResourceId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).Id
-          $idenityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).PrincipalId
-          $aibRoleImageCreationUrl="https://raw.githubusercontent.com/azure/azvmimagebuilder/master/solutions/12_Creating_AIB_Security_Roles/aibRoleImageCreation.json"
-          $aibRoleImageCreationPath = "aibRoleImageCreation.json"
-          Invoke-WebRequest -Uri $aibRoleImageCreationUrl -OutFile $aibRoleImageCreationPath -UseBasicParsing
-          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace '<subscriptionID>', $subscriptionID) | Set-Content -Path $aibRoleImageCreationPath
-          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace '<rgName>', $imageResourceGroup) | Set-Content -Path $aibRoleImageCreationPath
-          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace 'Azure Image Builder Service Image Creation Role', $imageRoleDefName) | Set-Content -Path $aibRoleImageCreationPath
-          cat aibRoleImageCreation.json
-          New-AzRoleDefinition -InputFile  ./aibRoleImageCreation.json
-          $idenityNamePrincipalId
-          Start-Sleep -s 15
-          New-AzRoleAssignment -ObjectId $idenityNamePrincipalId -RoleDefinitionName $imageRoleDefName -Scope "/subscriptions/$subscriptionID/resourceGroups/$imageResourceGroup"
-
