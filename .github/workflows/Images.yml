@@ -13,9 +13,9 @@ env:
 jobs:
 
  Buid_Image_AVD:
-   runs-on: windows-2019
+   runs-on: "windows-2019"
 
-    steps:
+   steps:
 
       - name: Log in with Azure
         uses: azure/login@v1
@@ -61,7 +61,8 @@ jobs:
           Get-Module -ListAvailable -All | Where-Object {($_.Name -like 'Az.*') -and ($_.Version -ne '0.0')} | Sort-Object
           New-AzRoleDefinition -InputFile  ./aibRoleImageCreation.json
 
-  Run_AIB:
+ Run_AIB:
+ #Dependance aux prerequis AIB
     needs: Buid_Image_AVD
     runs-on: windows-2019
 
@@ -76,8 +77,9 @@ jobs:
 
       - name: Download Repo content for template
         uses: actions/checkout@v2
-
+#Creation de la Shared Image Gallery pour stocker l'image Master
       - name: Shared Image $sigGalleryName
+#Installation du dernier module Az.Compute dans PS Core et creation de la SIG avec une premiere definition d'image
         run: |
           'Az.Compute' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
           $sigGalleryName="${{ env.SIG_NAME}}"
@@ -86,7 +88,7 @@ jobs:
           $imageDefName="${{ env.IMAGE_DEF_NAME}}"
           New-AzGallery -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location
           New-AzGalleryImageDefinition -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location -Name $imageDefName -OsState generalized -OsType Windows -Publisher 'myCo' -Offer 'Windows' -Sku '10wvd'   
-
+#Installation des modules Az necessaires pour utiliser AIB + personnalisation du template ARM AIB + Lancement du job AIB
       - name: Configure submit and build template
         run: |
           'Az.Accounts', "Az.Resources", "Az.ImageBuilder" | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}            
