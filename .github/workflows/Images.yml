@@ -23,18 +23,5 @@ jobs:
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           enable-AzPSSession: true
-
-
-      - name: Installation des modules PowerShell
-        run: |
-          'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
-      
- 
-
-
-      - name: Prerequis
-        run: |
-          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
-          $location="${{ env.LOCATION }}"
-          New-AzResourceGroup -Name $imageResourceGroup -Location $location # Creation du ressource groupe           
+        
                       
