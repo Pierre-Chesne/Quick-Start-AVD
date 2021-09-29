@@ -14,8 +14,9 @@ jobs:
 
  Buid_Image_AVD:
    runs-on: windows-2019
+     
 
-    steps:
+     steps:
 
       - name: Log in with Azure
         uses: azure/login@v1
@@ -33,7 +34,7 @@ jobs:
 
       - name: Prerequis
         run: |
-            $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
-            $location="${{ env.LOCATION }}"
-           New-AzResourceGroup -Name $imageResourceGroup -Location $location # Creation du ressource groupe           
+          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+          $location="${{ env.LOCATION }}"
+          New-AzResourceGroup -Name $imageResourceGroup -Location $location # Creation du ressource groupe           
                       
