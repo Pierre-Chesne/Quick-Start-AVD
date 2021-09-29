@@ -15,7 +15,7 @@ env:
 
 jobs:
 
-  Buid_Image_AVD:
+  Prerequis_Image_AVD:
     
     runs-on: windows-2019
 
@@ -37,3 +37,11 @@ jobs:
           $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
           $location="${{ env.LOCATION }}"
           New-AzResourceGroup -Name $imageResourceGroup -Location $location
+          
+          # Creattion d'une 'Manage Identity'
+          $currentAzContext = Get-AzContext
+          $subscriptionID=$currentAzContext.Subscription.Id
+          $timeInt=$(get-date -UFormat "%s")
+          $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
+          $idenityName="aibIdentity"+$timeInt
+          New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
