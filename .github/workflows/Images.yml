@@ -18,6 +18,8 @@ env:
 jobs:
 
   Buid_Image_AVD:
+    
+    runs-on: windows-2019
 
     steps:
 
