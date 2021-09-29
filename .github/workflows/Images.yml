@@ -16,21 +16,21 @@ jobs:
    runs-on: windows-2019
 
     steps:
-# Login Azure avec PowerShell
+
       - name: Log in with Azure
         uses: azure/login@v1
         with:
           creds: '${{ secrets.AZURE_CREDENTIALS }}'
           enable-AzPSSession: true
 
-# Installation des modules "PowerShell Az.ImageBuilder" et "ManagedServiceIdentity"
+
       - name: Installation des modules PowerShell
         run: |
           'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
       
  
 
-# Prerequis - Ressource Groupe - Identite - Role
+
       - name: Prerequis
         run: |
             $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
