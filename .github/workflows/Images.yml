@@ -33,7 +33,7 @@ jobs:
 
       - name: Prérequis 'Ajout Resrource Groupe' & 'Managed Identity' & 'Custom role'
         run: |
-# Creation du "Resource Group"        
+          # Creattion du 'RG'
           $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
           $location="${{ env.LOCATION }}"
           New-AzResourceGroup -Name $imageResourceGroup -Location $location
