@@ -3,9 +3,7 @@ name: Build Image Azure Virtual Desktop
 on:
   push:
     branches :
-      - Pierrc-Dev-One
-
- 
+      - Pierrc-Dev-One 
 
 env:
   LOCATION: "westeurope"
@@ -33,13 +31,8 @@ jobs:
         run: |
           'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
 
-
-
-
-  
-
-     
-
-
-        
-                      
+      - name: Prérequis 'Ajout Resrource Groupe' & 'Managed Identity' & 'Custom role'
+        run: |
+          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+          $location="${{ env.LOCATION }}"
+          New-AzResourceGroup -Name $imageResourceGroup -Location $location
