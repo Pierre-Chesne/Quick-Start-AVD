@@ -29,7 +29,7 @@ jobs:
 
       - name: Installation des modules PowerShell
         run: |
-          'Az.ImageBuilder', 'Az.ManagedServiceIdentity' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
+          'Az.ImageBuilder', 'Az.ManagedServiceIdentity', 'New-AzResourceGroup' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
 
       - name: Prérequis 'Ajout Resrource Groupe' & 'Managed Identity' & 'Custom role'
         run: |
