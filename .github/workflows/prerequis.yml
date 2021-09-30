@@ -6,7 +6,7 @@ on:
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Images-0007"
+  RG_NAME_IMAGE: "Rg-AVD-Images-007"
 
   IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
   SIG_NAME: "myaibsig01"
@@ -30,7 +30,7 @@ jobs:
         run: |
           'Az.ImageBuilder', 'Az.ManagedServiceIdentity', 'Az.Resources' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
 
-      - name: Prérequis 'Ajout Resrource Groupe' & 'Managed Identity' & 'Custom role'
+      - name: Prérequis 'Ajout Ressource Groupe' & 'Managed Identity' & 'Custom role'
         run: |
           # Creation du 'RG'
           $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
