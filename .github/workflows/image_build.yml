@@ -1,0 +1,115 @@
+name: Build Image Azure Virtual Desktop
+on:  workflow_dispatch 
+
+env:
+  LOCATION: "westeurope"
+  RG_NAME_IMAGE: "Rg-AVD-Images-0009"
+
+  IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
+  SIG_NAME: "myaibsig01"
+  IMAGE_DEF_NAME: "win10avdsep"
+  SHARE_LOCATION: "myfilestorage.file.core.windows.net"
+  SHARE_FOLDER: "fslogix"
+
+jobs:
+
+  Prerequis_Image_Azure_Virtual_Desktop:
+    
+    runs-on: windows-2019
+
+    steps:
+
+      - name: Login en PowerShell dans l'abonnement Azure
+        uses: azure/login@v1
+        with:
+          creds: '${{ secrets.AZURE_CREDENTIALS }}'
+          enable-AzPSSession: true
+
+      - name: Installation des modules PowerShell
+        run: |
+          'Az.ImageBuilder', 'Az.ManagedServiceIdentity', 'Az.Resources' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
+
+      - name: Prérequis 'Ajout Ressource Groupe' & 'Managed Identity' & 'Custom role'
+  # Creation du 'RG' et Managed Identity pour AIB avec attribution d'un custom role
+        run: |
+          $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+          $location="${{ env.LOCATION }}"
+          New-AzResourceGroup -Name $imageResourceGroup -Location $location
+
+          $currentAzContext = Get-AzContext
+          $subscriptionID=$currentAzContext.Subscription.Id
+          $timeInt=$(get-date -UFormat "%s")
+          $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
+          $idenityName="aibIdentity"+$timeInt
+          New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
+
+          $idenityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).PrincipalId
+          $aibRoleImageCreationUrl="https://raw.githubusercontent.com/azure/azvmimagebuilder/master/solutions/12_Creating_AIB_Security_Roles/aibRoleImageCreation.json"
+          $aibRoleImageCreationPath = "aibRoleImageCreation.json"
+          Invoke-WebRequest -Uri $aibRoleImageCreationUrl -OutFile $aibRoleImageCreationPath -UseBasicParsing
+          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace '<subscriptionID>', $subscriptionID) | Set-Content -Path $aibRoleImageCreationPath
+          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace '<rgName>', $imageResourceGroup) | Set-Content -Path $aibRoleImageCreationPath
+          ((Get-Content -path $aibRoleImageCreationPath -Raw) -replace 'Azure Image Builder Service Image Creation Role', $imageRoleDefName) | Set-Content -Path $aibRoleImageCreationPath
+          New-AzRoleDefinition -InputFile  .\aibRoleImageCreation.json
+          New-AzRoleAssignment -ObjectId $idenityNamePrincipalId -RoleDefinitionName $imageRoleDefName -Scope "/subscriptions/$subscriptionID/resourceGroups/$imageResourceGroup"
+
+  Run_AIB:
+  #Dependance aux prerequis AIB
+      needs: Prerequis_Image_Azure_Virtual_Desktop
+      runs-on: windows-2019
+
+      steps:
+
+        - name: Log in with Azure
+          uses: azure/login@v1
+          with:
+            creds: '${{ secrets.AZURE_CREDENTIALS }}'
+            enable-AzPSSession: true  
+
+  #Récupération des artefacts du repository dans le runner
+        - name: Download Repo content for template
+          uses: actions/checkout@v2
+
+  #Creation de la Shared Image Gallery pour stocker l'image Master avec définition de l'image
+        - name: Provisionning Shared Image Gallery
+          run: |
+            'Az.Compute' | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}
+            $sigGalleryName="${{ env.SIG_NAME}}"
+            $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+            $location="${{ env.LOCATION }}"
+            $imageDefName="${{ env.IMAGE_DEF_NAME}}"
+
+            New-AzGallery -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location
+            New-AzGalleryImageDefinition -GalleryName $sigGalleryName -ResourceGroupName $imageResourceGroup -Location $location -Name $imageDefName -OsState generalized -OsType Windows -Publisher 'myCo' -Offer 'Windows' -Sku '10wvd'   
+  
+  #Personnalisation du template ARM AIB et execution du job de build de l'image
+        - name: Configure submit and build template
+          run: |
+            'Az.Accounts', "Az.Resources", "Az.ImageBuilder", "Az.ManagedServiceIdentity" | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}            
+            $currentAzContext = Get-AzContext
+            $aibidentityname = Get-AzUserAssignedIdentity -ResourceGroupName ${{ env.RG_NAME_IMAGE }}
+            $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
+            $location="${{ env.LOCATION }}"
+            $subscriptionID=$currentAzContext.Subscription.Id
+            $imageDefName="${{ env.IMAGE_DEF_NAME}}"
+            $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
+            $runOutputName="sigOutput"
+            $sigGalleryName="${{ env.SIG_NAME}}"
+            $idenityNameResourceId="/subscriptions/"+$subscriptionID+"/resourceGroups/"+$imageResourceGroup+"/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aibIdentity1631636201"
+            $idenityNameResourceId
+            $templateFilePath="./ARM/AVDTemplate.json"
+            $share_location="${{ env.SHARE_LOCATION }}"
+            $share_folder="${{ env.SHARE_FOLDER }}"
+
+            ((Get-Content -path $templateFilePath -Raw) -replace '<subscriptionID>',$subscriptionID) | Set-Content -Path $templateFilePath
+            ((Get-Content -path $templateFilePath -Raw) -replace '<rgName>',$imageResourceGroup) | Set-Content -Path $templateFilePath
+            ((Get-Content -path $templateFilePath -Raw) -replace '<region>',$location) | Set-Content -Path $templateFilePath
+            ((Get-Content -path $templateFilePath -Raw) -replace '<share_location>',$share_location) | Set-Content -Path $templateFilePath
+            ((Get-Content -path $templateFilePath -Raw) -replace '<share_folder>',$share_folder) | Set-Content -Path $templateFilePath
+            ((Get-Content -path $templateFilePath -Raw) -replace '<runOutputName>',$runOutputName) | Set-Content -Path $templateFilePath
+            ((Get-Content -path $templateFilePath -Raw) -replace '<imageDefName>',$imageDefName) | Set-Content -Path $templateFilePath
+            ((Get-Content -path $templateFilePath -Raw) -replace '<sharedImageGalName>',$sigGalleryName) | Set-Content -Path $templateFilePath
+            ((Get-Content -path $templateFilePath -Raw) -replace '<region1>',$location) | Set-Content -Path $templateFilePath
+            ((Get-Content -path $templateFilePath -Raw) -replace '<imgBuilderId>',$idenityNameResourceId) | Set-Content -Path $templateFilePath
+            New-AzResourceGroupDeployment -ResourceGroupName $imageResourceGroup -TemplateFile $templateFilePath -api-version "2020-02-14" -imageTemplateName $imageTemplateName -svclocation $location
+            Start-AzImageBuilderTemplate -ResourceGroupName $imageResourceGroup -Name $imageTemplateName -NoWait
