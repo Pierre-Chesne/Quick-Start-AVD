@@ -1,4 +1,4 @@
-name: Build Image Azure Virtual Desktop
+name: Build Image AVD with AIB
 on:  workflow_dispatch 
 
 env:

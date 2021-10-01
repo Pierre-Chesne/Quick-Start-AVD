@@ -1,11 +1,10 @@
-name: Build Image Azure Virtual Desktop
+name: Build Old
 
 on: workflow_dispatch
 
 env:
   LOCATION: "westeurope"
   RG_NAME_IMAGE: "Rg-AVD-Images-000101"
-
   IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
   SIG_NAME: "myaibsig01"
   IMAGE_DEF_NAME: "win10avdsep"
