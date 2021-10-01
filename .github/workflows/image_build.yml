@@ -95,7 +95,7 @@ jobs:
             $imageTemplateName="${{ env.IMAGE_TEMPLATE_Name}}"
             $runOutputName="sigOutput"
             $sigGalleryName="${{ env.SIG_NAME}}"
-            $idenityNameResourceId="/subscriptions/"+$subscriptionID+"/resourceGroups/"+$imageResourceGroup+"/providers/Microsoft.ManagedIdentity/userAssignedIdentities/aibIdentity1631636201"
+            $idenityNameResourceId="/subscriptions/"+$subscriptionID+"/resourceGroups/"+$imageResourceGroup+"/providers/Microsoft.ManagedIdentity/userAssignedIdentities/"+$aibidentityname.Name
             $idenityNameResourceId
             $templateFilePath="./ARM/AVDTemplate.json"
             $share_location="${{ env.SHARE_LOCATION }}"
