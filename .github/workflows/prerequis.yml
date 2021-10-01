@@ -6,7 +6,7 @@ on:
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Images-008"
+  RG_NAME_IMAGE: "Rg-AVD-Images-0008"
 
   IMAGE_TEMPLATE_Name: "wvd10ImageTemplate00"
   SIG_NAME: "myaibsig01"
