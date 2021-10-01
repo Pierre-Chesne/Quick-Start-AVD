@@ -3,10 +3,10 @@ on:  workflow_dispatch
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Images-002"
+  RG_NAME_IMAGE: "Rg-AVD-Images-0020"
 
-  IMAGE_TEMPLATE_Name: "avd10ImageTemplate00"
-  SIG_NAME: "myaibsig02"
+  IMAGE_TEMPLATE_Name: "avd10ImageTemplate20"
+  SIG_NAME: "myaibsig00"
   IMAGE_DEF_NAME: "win10avdoct"
   SHARE_LOCATION: "myfilestorage.file.core.windows.net"
   SHARE_FOLDER: "fslogix"
