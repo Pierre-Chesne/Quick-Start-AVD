@@ -1,4 +1,4 @@
-name: Build Image Azure Virtual Desktop
+name: Deprecated
 
 on: workflow_dispatch
 
