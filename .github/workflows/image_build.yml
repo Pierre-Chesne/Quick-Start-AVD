@@ -3,10 +3,10 @@ on:  workflow_dispatch
 
 env:
   LOCATION: "westeurope"
-  RG_NAME_IMAGE: "Rg-AVD-Images-0001"
+  RG_NAME_IMAGE: "Rg-AVD-Images-0002"
 
-  IMAGE_TEMPLATE_Name: "avd10ImageTemplate0001"
-  SIG_NAME: "aibsig0001"
+  IMAGE_TEMPLATE_Name: "avd10ImageTemplate0002"
+  SIG_NAME: "aibsig0002"
   IMAGE_DEF_NAME: "win10avdoct"
   SHARE_LOCATION: "blablacloudstorage2021.file.core.windows.net"
   SHARE_FOLDER: "fslogix"
@@ -89,7 +89,7 @@ jobs:
             'Az.Accounts', "Az.Resources", "Az.ImageBuilder", "Az.ManagedServiceIdentity" | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}            
             $currentAzContext = Get-AzContext
             $aibidentityname = Get-AzUserAssignedIdentity -ResourceGroupName "${{ env.RG_NAME_IMAGE }}"
-            Start-sleep -Seconds 120
+            Start-sleep -Seconds 180
             $aibname = $aibidentityname.Name
             $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
             $location="${{ env.LOCATION }}"
