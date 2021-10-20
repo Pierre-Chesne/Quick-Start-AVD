@@ -31,8 +31,10 @@ jobs:
         run: |
             'Az.Accounts', "Az.Resources", "Az.ImageBuilder", "Az.ManagedServiceIdentity" | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}            
             $currentAzContext = Get-AzContext
+            Get-AzUserAssignedIdentity -ResourceGroupName "${{ env.RG_NAME_IMAGE }}"
             $aibidentityname = Get-AzUserAssignedIdentity -ResourceGroupName "${{ env.RG_NAME_IMAGE }}"
             Start-sleep -Seconds 10
             $aibname = $aibidentityname.Name
+            Write-Host "AibIdentityName.Name $aibidentityname.Name"
             $aibname
             
