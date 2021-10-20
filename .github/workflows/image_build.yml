@@ -89,6 +89,7 @@ jobs:
             'Az.Accounts', "Az.Resources", "Az.ImageBuilder", "Az.ManagedServiceIdentity" | ForEach-Object {Install-Module -Name $_ -AllowPrerelease -Force}            
             $currentAzContext = Get-AzContext
             $aibidentityname = Get-AzUserAssignedIdentity -ResourceGroupName "${{ env.RG_NAME_IMAGE }}"
+            $aibidentityname.Name
             $imageResourceGroup="${{ env.RG_NAME_IMAGE }}"
             $location="${{ env.LOCATION }}"
             $subscriptionID=$currentAzContext.Subscription.Id
