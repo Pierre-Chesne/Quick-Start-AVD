@@ -41,7 +41,7 @@
 
             "vmProfile": 
                     {
-                    "vmSize": "Standard_D2_v4",
+                    "vmSize": "Standard_D4_v4",
                     "osDiskSizeGB": 127
                     },
         
@@ -81,7 +81,7 @@
                         "name": "OptimizeOS",
                         "runElevated": true,
                         "runAsSystem": true,
-                        "scriptUri": "https://raw.githubusercontent.com/Pierre-Chesne/Quick-Start-AVD/main/PS/1_Optimize_OS_for_WVD.ps1"
+                        "scriptUri": "https://raw.githubusercontent.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/main/Win10_VirtualDesktop_Optimize.ps1"
                     },
                     {
                         "type": "WindowsRestart",
