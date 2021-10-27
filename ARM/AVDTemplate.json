@@ -77,11 +77,6 @@
                         "runAsSystem": true
                     },
                     {
-                        "type": "WindowsRestart",
-                        "restartCheckCommand": "write-host 'restarting post Optimizations'",
-                        "restartTimeout": "5m"
-                    },
-                    {
                         "type": "PowerShell",
                         "name": "Install Teams",
                         "runElevated": true,
