@@ -77,13 +77,6 @@
                         "runAsSystem": true
                     },
                     {
-                        "type": "PowerShell",
-                        "name": "OptimizeOS",
-                        "runElevated": true,
-                        "runAsSystem": true,
-                        "scriptUri": "https://raw.githubusercontent.com/The-Virtual-Desktop-Team/Virtual-Desktop-Optimization-Tool/main/Win10_VirtualDesktop_Optimize.ps1"
-                    },
-                    {
                         "type": "WindowsRestart",
                         "restartCheckCommand": "write-host 'restarting post Optimizations'",
                         "restartTimeout": "5m"
