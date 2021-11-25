@@ -33,7 +33,7 @@ jobs:
         run: |
           az deployment sub create --location ${{ env.LOCATION}} \
             --template-file ./Bicep/main.bicep \
-            --parameters ./Bicep/deploy.parameters.json --parameters 'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}'
+            --parameters ./Bicep/deploy.parameters.json 'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}'
 
 
                
