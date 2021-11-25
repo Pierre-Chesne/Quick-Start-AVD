@@ -3,7 +3,7 @@ targetScope = 'subscription'
 param location string
 param rgName string
 param expirationTime string
-param hosPoolName string
+param hostPoolName string
 param hostPoolType string
 param loadBalancerType string
 param maxSessionLimit int
@@ -23,7 +23,7 @@ module hostPools0 'hostpools.bicep' = {
   name: 'deployHostPool'
   params: {
     expirationTime: expirationTime
-    hostPoolName: hosPoolName
+    hostPoolName: hostPoolName
     hostPoolType: hostPoolType
     loadBalancerType: loadBalancerType
     maxSessionLimit: maxSessionLimit

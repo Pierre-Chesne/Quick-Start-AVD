@@ -21,7 +21,10 @@
             "value": 10
         },
         "validationEnvironment": {
-            "value": "true"
+            "value": true
+        },
+        "expirationTime": {
+            "value": ""
         }
     }
 }
