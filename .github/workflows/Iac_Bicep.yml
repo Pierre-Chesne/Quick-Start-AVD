@@ -1,0 +1,15 @@
+name: Deploiement d'une infra Azure Virtual Desktop
+
+on: workflow_dispatch
+runs-on: ubuntu-20.04
+
+jobs:
+
+Test_Template_Bicep:
+
+  - name: Creation du temp d'expiration du Token (host Pool)
+    shell: pwsh
+    run: |
+      $Expiration=$((get-date).ToUniversalTime().AddHours(2).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ'))
+      echo "::set-output name=content::$($Expiration)"
+    id: var_expiration 

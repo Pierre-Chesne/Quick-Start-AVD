@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "location": {
+            "value": "westeurope"
+        },
+        "rgName": {
+            "value": "RG-ID-AVD"
+        },
+        "hostPoolName": {
+            "value": "HostPool-ID"
+        },
+        "hostPoolType": {
+            "value": "pooled"
+        },
+        "loadBalancerType": {
+            "value": "BreadthFirst"
+        },
+        "maxSessionLimit": {
+            "value": 10
+        },
+        "validationEnvironment": {
+            "value": "true"
+        }
+    }
+}
