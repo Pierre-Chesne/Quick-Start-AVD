@@ -2,6 +2,8 @@ name: Deploiement d'une infra Azure Virtual Desktop
 
 on: workflow_dispatch
 
+env:
+  LOCATION: westeurope
 
 jobs:
 
@@ -26,4 +28,12 @@ jobs:
         uses: Azure/login@v1
         with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Test du Template ARM
+        run: |
+          az deployment sub create --location ${{ env.LOCATION}} \
+            --template-file ./Bicep/main.bicep \
+            --parameters ./Bicep/deploy.parameters.json 'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}'
+
+
                
