@@ -2,6 +2,12 @@
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
     "contentVersion": "1.0.0.0",
     "parameters": {
+        "numbersOfVm": {
+            "value": 2
+        },
+        "hostName": {
+            "value": "Host"
+        },
         "location": {
             "value": "westeurope"
         },
@@ -34,6 +40,15 @@
         },
         "workspaceName": {
             "value": "WKS-0"
+        },
+        "virtualNetworkResourceGroupName": {
+            "value": "RG-ID-PROD"
+        },
+        "virtualNetworkName": {
+            "value": "Vnet-ID-PROD"
+        },
+        "subnetName": {
+            "value": "Subnet-Hosts"
         }
     }
 }

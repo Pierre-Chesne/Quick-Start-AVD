@@ -11,6 +11,13 @@ param validationEnvironment bool
 param applicationGroupType string
 param dagName string
 param workspaceName string
+param numbersOfVm int
+param nic string
+param virtualNetworkResourceGroupName string
+param virtualNetworkName string
+param subnetName string
+
+
 
 module rgModule 'rg.bicep' = {
   name: 'deployRgModule'  
@@ -55,9 +62,16 @@ module workspace 'workspaces.bicep' = {
   }
 }
 
-module nic 'nic.bicep' = {
+module nicX 'nic.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployNic'
+  params: {
+    nic: nic
+    numbersOfVm: numbersOfVm
+    virtualNetworkResourceGroupName: virtualNetworkResourceGroupName
+    virtualNetworkName: virtualNetworkName
+    subnetName: subnetName
+  }
 }
 
 // az deployment sub create --location westeurope --template-file ./Bicep/main.bicep --parameters ./Bicep/deploy.parameters.json

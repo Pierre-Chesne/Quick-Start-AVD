@@ -1,13 +1,13 @@
-param Numbers_of_VM int = 2
-param nic string = 'Host'
+param numbersOfVm int
+param nic string
 
-param virtualNetworkResourceGroupName string = 'RG-ID-PROD'
-param subnetName string = 'Subnet-Hosts'
-param virtualNetworkName string = 'Vnet-ID-PROD'
+param virtualNetworkResourceGroupName string
+param subnetName string
+param virtualNetworkName string
 
-var subnet_id = resourceId(virtualNetworkResourceGroupName, 'Microsoft.Network/virtualNetworks/subnets',virtualNetworkName,subnetName)
+var subnet_id = resourceId(virtualNetworkResourceGroupName, 'Microsoft.Network/virtualNetworks/subnets', virtualNetworkName, subnetName)
 
-resource nicX 'Microsoft.Network/networkInterfaces@2021-03-01' =[ for i in range(0, Numbers_of_VM):{
+resource nicX 'Microsoft.Network/networkInterfaces@2021-03-01' = [for i in range(0, numbersOfVm): {
   name: '${nic}-${i}-nic'
   location: resourceGroup().location
   properties: {
