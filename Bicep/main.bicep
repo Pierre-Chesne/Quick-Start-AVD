@@ -11,7 +11,6 @@ param validationEnvironment bool
 param applicationGroupType string
 param dagName string
 
-
 module rgModule 'rg.bicep' = {
   name: 'deployRgModule'  
   params: {
