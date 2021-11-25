@@ -17,8 +17,6 @@ param virtualNetworkResourceGroupName string
 param virtualNetworkName string
 param subnetName string
 
-
-
 module rgModule 'rg.bicep' = {
   name: 'deployRgModule'  
   params: {
@@ -72,6 +70,9 @@ module nicX 'nic.bicep' = {
     virtualNetworkName: virtualNetworkName
     subnetName: subnetName
   }
+  dependsOn: [
+    rgModule
+  ]
 }
 
 // az deployment sub create --location westeurope --template-file ./Bicep/main.bicep --parameters ./Bicep/deploy.parameters.json
