@@ -31,6 +31,9 @@
         },
         "dagName": {
             "value": "DAG-0"
+        },
+        "workspaceName": {
+            "value": "WKS-0"
         }
 
     }

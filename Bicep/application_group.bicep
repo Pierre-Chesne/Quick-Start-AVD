@@ -11,3 +11,5 @@ resource applicationGroup0 'Microsoft.DesktopVirtualization/applicationGroups@20
     hostPoolArmPath: hostPoolArmPath
   }
 }
+
+output applicationGroup0 string = applicationGroup0.id

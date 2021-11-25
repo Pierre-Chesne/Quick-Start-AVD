@@ -10,6 +10,7 @@ param maxSessionLimit int
 param validationEnvironment bool
 param applicationGroupType string
 param dagName string
+param workspaceName string
 
 module rgModule 'rg.bicep' = {
   name: 'deployRgModule'  
@@ -42,6 +43,15 @@ module desktopApplicationGroup 'application_group.bicep' = {
     applicationGroupType: applicationGroupType
     dagName: dagName
     hostPoolArmPath: hostPool0.outputs.hostPool0  
+  }
+}
+
+module workspace 'workspaces.bicep' = {
+  scope: resourceGroup(rgName)
+  name: 'deployWorkspace'
+  params: {
+    applicationGroupReferences: desktopApplicationGroup.outputs.applicationGroup0
+    workspaceName: workspaceName
   }
 }
 
