@@ -2,7 +2,7 @@ targetScope = 'subscription'
 
 param location string
 param rgName string
-param expirationTime string
+param tokenExpirationTime string
 param hostPoolName string
 param hostPoolType string
 param loadBalancerType string
@@ -22,12 +22,15 @@ module hostPools0 'hostpools.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployHostPool'
   params: {
-    expirationTime: expirationTime
+    tokenExpirationTime: tokenExpirationTime
     hostPoolName: hostPoolName
     hostPoolType: hostPoolType
     loadBalancerType: loadBalancerType
     maxSessionLimit: maxSessionLimit
     validationEnvironment: validationEnvironment
   }
+  dependsOn: [
+    rgModule
+  ]
 }
 // az deployment sub create --location westeurope --template-file ./Bicep/main.bicep --parameters ./Bicep/deploy.parameters.json

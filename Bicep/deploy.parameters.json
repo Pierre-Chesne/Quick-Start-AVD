@@ -23,7 +23,7 @@
         "validationEnvironment": {
             "value": true
         },
-        "expirationTime": {
+        "tokenExpirationTime": {
             "value": ""
         }
     }

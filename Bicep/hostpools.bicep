@@ -3,7 +3,7 @@ param hostPoolType string
 param maxSessionLimit int
 param loadBalancerType string
 param validationEnvironment bool
-param expirationTime string
+param tokenExpirationTime string
 
 resource hostPools0 'Microsoft.DesktopVirtualization/hostPools@2021-09-03-preview'= {
   name: hostPoolName
@@ -15,7 +15,7 @@ resource hostPools0 'Microsoft.DesktopVirtualization/hostPools@2021-09-03-previe
     validationEnvironment: validationEnvironment
     registrationInfo: {
       registrationTokenOperation: 'Update'
-      expirationTime: expirationTime
+      expirationTime: tokenExpirationTime
       token: null
     }
     preferredAppGroupType: 'Desktop'
