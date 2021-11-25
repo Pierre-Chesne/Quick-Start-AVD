@@ -5,13 +5,13 @@ runs-on: ubuntu-20.04
 
 jobs:
 
-Test_Template_Bicep:
+  Test_Template_Bicep:
+    runs-on: ubuntu-20.04
 
-steps:
-
-  - name: Creation du temp d'expiration du Token (host Pool)
-    shell: pwsh
-    run: |
-      $Expiration=$((get-date).ToUniversalTime().AddHours(2).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ'))
-      echo "::set-output name=content::$($Expiration)"
-    id: var_expiration 
+    steps:
+      - name: Creation du temp d'expiration du Token (host Pool)
+        shell: pwsh
+        run: |
+          $Expiration=$((get-date).ToUniversalTime().AddHours(2).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ'))
+          echo "::set-output name=content::$($Expiration)"
+        id: var_expiration 
