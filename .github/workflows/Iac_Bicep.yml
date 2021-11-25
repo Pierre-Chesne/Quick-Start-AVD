@@ -1,12 +1,12 @@
 name: Deploiement d'une infra Azure Virtual Desktop
 
 on: workflow_dispatch
-runs-on: ubuntu-20.04
+
 
 jobs:
 
   Test_Template_Bicep:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Creation du temp d'expiration du Token (host Pool)
