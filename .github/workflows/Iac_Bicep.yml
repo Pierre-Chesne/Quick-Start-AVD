@@ -14,4 +14,8 @@ jobs:
         run: |
           $Expiration=$((get-date).ToUniversalTime().AddHours(2).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ'))
           echo "::set-output name=content::$($Expiration)"
-        id: var_expiration 
+        id: var_expiration
+
+      - name: Test du temp d'expiration du Token (host Pool)
+        run: |
+          echo "The string is: ${{ steps.var_expiration.outputs.content }}" 
