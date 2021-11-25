@@ -8,6 +8,8 @@ param hostPoolType string
 param loadBalancerType string
 param maxSessionLimit int
 param validationEnvironment bool
+param applicationGroupType string
+param dagName string
 
 
 module rgModule 'rg.bicep' = {
@@ -18,7 +20,7 @@ module rgModule 'rg.bicep' = {
   }
 }
 
-module hostPools0 'hostpools.bicep' = {
+module hostPool0 'hostpools.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployHostPool'
   params: {
@@ -33,4 +35,15 @@ module hostPools0 'hostpools.bicep' = {
     rgModule
   ]
 }
+
+module desktopApplicationGroup 'application_group.bicep' = {
+  scope: resourceGroup(rgName)
+  name: 'deploydesktopApplicationGroup'
+  params: {
+    applicationGroupType: applicationGroupType
+    dagName: dagName
+    hostPoolArmPath: hostPool0.outputs.hostPool0  
+  }
+}
+
 // az deployment sub create --location westeurope --template-file ./Bicep/main.bicep --parameters ./Bicep/deploy.parameters.json

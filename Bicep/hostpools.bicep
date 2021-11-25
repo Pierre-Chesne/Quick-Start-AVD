@@ -5,7 +5,7 @@ param loadBalancerType string
 param validationEnvironment bool
 param tokenExpirationTime string
 
-resource hostPools0 'Microsoft.DesktopVirtualization/hostPools@2021-09-03-preview'= {
+resource hostPool0 'Microsoft.DesktopVirtualization/hostPools@2021-09-03-preview'= {
   name: hostPoolName
   location: resourceGroup().location
   properties: {
@@ -21,3 +21,6 @@ resource hostPools0 'Microsoft.DesktopVirtualization/hostPools@2021-09-03-previe
     preferredAppGroupType: 'Desktop'
   }
 }
+
+output hostPool0 string = hostPool0.id
+
