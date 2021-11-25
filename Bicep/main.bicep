@@ -55,4 +55,9 @@ module workspace 'workspaces.bicep' = {
   }
 }
 
+module nic 'nic.bicep' = {
+  scope: resourceGroup(rgName)
+  name: 'deployNic'
+}
+
 // az deployment sub create --location westeurope --template-file ./Bicep/main.bicep --parameters ./Bicep/deploy.parameters.json
