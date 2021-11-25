@@ -12,7 +12,7 @@ param applicationGroupType string
 param dagName string
 param workspaceName string
 param numbersOfVm int
-param nic string
+param hostName string
 param virtualNetworkResourceGroupName string
 param virtualNetworkName string
 param subnetName string
@@ -66,7 +66,7 @@ module nicX 'nic.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployNic'
   params: {
-    nic: nic
+    hostName: hostName    
     numbersOfVm: numbersOfVm
     virtualNetworkResourceGroupName: virtualNetworkResourceGroupName
     virtualNetworkName: virtualNetworkName
