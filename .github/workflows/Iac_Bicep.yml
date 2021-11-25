@@ -18,4 +18,5 @@ jobs:
 
       - name: Test du temp d'expiration du Token (host Pool)
         run: |
-          echo "The string is: ${{ steps.var_expiration.outputs.content }}" 
+          echo "The string is: ${{ steps.var_expiration.outputs.content }}"
+           
