@@ -8,7 +8,7 @@ param galleryImageDefinitionName string = 'win10avdoct'
 param galleryImageVersionName string = 'latest'
 
 param userNameLocal string = 'pierrc'
-param pwdLocal string = 'Password123$'
+param pwdLocal string = '*******'
 
 resource hosts 'Microsoft.Compute/virtualMachines@2021-07-01' = [for i in range(0, numbersOfVm): {
   name: '${hostNamePrefix}-${i}'
@@ -20,6 +20,7 @@ resource hosts 'Microsoft.Compute/virtualMachines@2021-07-01' = [for i in range(
     storageProfile: {
       imageReference: {
         sharedGalleryImageId: resourceId(galleryNameResourceGroupName,'Microsoft.Compute/galleries/images/versions', galleryName, galleryImageDefinitionName, galleryImageVersionName)
+                 
       }
       osDisk: {
         osType: 'Windows'
