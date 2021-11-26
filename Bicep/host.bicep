@@ -1,6 +1,6 @@
 param numbersOfVm int = 2
 param hostNamePrefix string = 'Host-AVD'
-param vmSize string = 'Standard D2s v3'
+param vmSize string = 'Standard_D2s_v3'
 
 param galleryName string = 'aibsig00001'
 param galleryImageDefinitionName string = 'win10avdoct'
