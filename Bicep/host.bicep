@@ -5,7 +5,7 @@ param vmSize string = 'Standard_D2s_v3'
 param galleryNameResourceGroupName string = 'Rg-AVD-Images-00001'
 param galleryName string = 'aibsig00001'
 param galleryImageDefinitionName string = 'win10avdoct'
-param galleryImageVersionName string = 'latest'
+//param galleryImageVersionName string = 'latest'
 
 param userNameLocal string = 'pierrc'
 param pwdLocal string = 'Password123$'
@@ -19,7 +19,7 @@ resource hosts 'Microsoft.Compute/virtualMachines@2021-07-01' = [for i in range(
     }
     storageProfile: {
       imageReference: {
-        sharedGalleryImageId: resourceId(galleryNameResourceGroupName,'Microsoft.Compute/galleries/images/versions', galleryName, galleryImageDefinitionName, galleryImageVersionName)
+        sharedGalleryImageId: resourceId(galleryNameResourceGroupName,'Microsoft.Compute/galleries/images/versions', galleryName, galleryImageDefinitionName)
       }
       osDisk: {
         osType: 'Windows'
