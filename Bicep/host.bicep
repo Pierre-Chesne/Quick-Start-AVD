@@ -5,7 +5,7 @@ param vmSize string = 'Standard_D2s_v3'
 param galleryNameResourceGroupName string = 'Rg-AVD-Images-00001'
 param galleryName string = 'aibsig00001'
 param galleryImageDefinitionName string = 'win10avdoct'
-param galleryImageVersionName string = 'latest'
+param galleryImageVersionName string = '0.24956.1975'
 
 param userNameLocal string = 'pierrc'
 param pwdLocal string = 'Password123$'
