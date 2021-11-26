@@ -27,3 +27,4 @@ resource nicX 'Microsoft.Network/networkInterfaces@2021-03-01' = [for i in range
     enableIPForwarding: false
   }
 }]
+

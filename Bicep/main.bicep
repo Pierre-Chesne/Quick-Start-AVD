@@ -75,4 +75,13 @@ module nicX 'nic.bicep' = {
   ]
 }
 
+module hostX 'host.bicep' = {
+  scope: resourceGroup(rgName)
+  name: 'deployHosts'
+  dependsOn: [
+    nicX
+  ]
+
+}
+
 // az deployment sub create --location westeurope --template-file ./Bicep/main.bicep --parameters ./Bicep/deploy.parameters.json
