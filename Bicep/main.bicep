@@ -27,6 +27,7 @@ param domainUsernamePassword string
 param domainName string
 param domainUsername string
 
+// Creation du "resource Group"
 module rgModule 'rg.bicep' = {
   name: 'deployRgModule'  
   params: {
@@ -35,6 +36,7 @@ module rgModule 'rg.bicep' = {
   }
 }
 
+// Creation du "Host Pool"
 module hostPool0 'hostpools.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployHostPool0'
@@ -51,6 +53,7 @@ module hostPool0 'hostpools.bicep' = {
   ]
 }
 
+// Creation de "Application Group"
 module desktopApplicationGroup 'application_group.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deploydesktopApplicationGroup'
@@ -61,6 +64,7 @@ module desktopApplicationGroup 'application_group.bicep' = {
   }
 }
 
+// Creation de "WorkSpace"
 module workspace 'workspaces.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployWorkspace'
@@ -70,6 +74,7 @@ module workspace 'workspaces.bicep' = {
   }
 }
 
+// Creation des NICs
 module nicX 'nic.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployNic'
@@ -85,6 +90,7 @@ module nicX 'nic.bicep' = {
   ]
 }
 
+// Creation des Hosts
 module hostX 'host.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployHosts'
@@ -104,6 +110,7 @@ module hostX 'host.bicep' = {
   ]
 }
 
+// Hosts dans "l'Active Directory"
 module domainJoinX 'join_domain.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployJoinX'
@@ -119,6 +126,7 @@ module domainJoinX 'join_domain.bicep' = {
   ]
 }
 
+// Installation des agents AVD
 module agentsAVDX 'agent_AVD.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployagentsAVDX'
