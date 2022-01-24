@@ -4,6 +4,11 @@ param location string
 param rgName string
 param tokenExpirationTime string
 param hostPoolName string
+param pwdLocal string
+param galleryImageDefinitionName string
+param galleryImageVersionName string
+param galleryNameResourceGroupName string
+param galleryName string
 param hostPoolType string
 param loadBalancerType string
 param maxSessionLimit int
@@ -12,10 +17,15 @@ param applicationGroupType string
 param dagName string
 param workspaceName string
 param numbersOfVm int
-param hostName string
+param vmSize string
+param userNameLocal string
+param hostNamePrefix string
 param virtualNetworkResourceGroupName string
 param virtualNetworkName string
 param subnetName string
+param domainUsernamePassword string
+param domainName string
+param domainUsername string
 
 module rgModule 'rg.bicep' = {
   name: 'deployRgModule'  
@@ -27,7 +37,7 @@ module rgModule 'rg.bicep' = {
 
 module hostPool0 'hostpools.bicep' = {
   scope: resourceGroup(rgName)
-  name: 'deployHostPool'
+  name: 'deployHostPool0'
   params: {
     tokenExpirationTime: tokenExpirationTime
     hostPoolName: hostPoolName
@@ -64,7 +74,7 @@ module nicX 'nic.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployNic'
   params: {
-    hostName: hostName    
+    hostNamePrefix: hostNamePrefix    
     numbersOfVm: numbersOfVm
     virtualNetworkResourceGroupName: virtualNetworkResourceGroupName
     virtualNetworkName: virtualNetworkName
@@ -78,10 +88,48 @@ module nicX 'nic.bicep' = {
 module hostX 'host.bicep' = {
   scope: resourceGroup(rgName)
   name: 'deployHosts'
+  params: {
+    numbersOfVm: numbersOfVm
+    hostNamePrefix: hostNamePrefix
+    vmSize: vmSize
+    userNameLocal: userNameLocal
+    pwdLocal: pwdLocal
+    galleryImageDefinitionName: galleryImageDefinitionName
+    galleryImageVersionName: galleryImageVersionName
+    galleryName: galleryName
+    galleryNameResourceGroupName: galleryNameResourceGroupName
+  }
   dependsOn: [
     nicX
   ]
-
 }
 
-// az deployment sub create --location westeurope --template-file ./Bicep/main.bicep --parameters ./Bicep/deploy.parameters.json
+module domainJoinX 'join_domain.bicep' = {
+  scope: resourceGroup(rgName)
+  name: 'deployJoinX'
+  params: {
+    numbersOfVm: numbersOfVm
+    domainUsernamePassword: domainUsernamePassword
+    domainName: domainName
+    hostNamePrefix: hostNamePrefix
+    domainUsername: domainUsername
+  }
+  dependsOn: [
+    hostX
+  ]
+}
+
+module agentsAVDX 'agent_AVD.bicep' = {
+  scope: resourceGroup(rgName)
+  name: 'deployagentsAVDX'
+  params: {
+    numbersOfVm: numbersOfVm
+    hostNamePrefix: hostNamePrefix
+    hostPoolName: hostPoolName    
+  }
+  dependsOn: [
+    domainJoinX
+  ]
+}
+
+// az deployment sub create --location westeurope --template-file ./Bicep/main.bicep --parameters ./Bicep/parameters/deploy.parameters.json 

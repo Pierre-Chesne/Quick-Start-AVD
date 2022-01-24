@@ -1,14 +1,14 @@
-param numbersOfVm int = 2
-param hostNamePrefix string = 'Host-AVD'
-param vmSize string = 'Standard_D2s_v3'
+param numbersOfVm int
+param hostNamePrefix string
+param vmSize string
 
-param galleryNameResourceGroupName string = 'Rg-AVD-Images-00001'
-param galleryName string = 'aibsig00001'
-param galleryImageDefinitionName string = 'win10avdoct'
-param galleryImageVersionName string = 'latest'
+param galleryNameResourceGroupName string
+param galleryName string
+param galleryImageDefinitionName string
+param galleryImageVersionName string
 
-param userNameLocal string = 'pierrc'
-param pwdLocal string = '*******'
+param userNameLocal string
+param pwdLocal string
 
 resource hosts 'Microsoft.Compute/virtualMachines@2021-07-01' = [for i in range(0, numbersOfVm): {
   name: '${hostNamePrefix}-${i}'
@@ -18,9 +18,8 @@ resource hosts 'Microsoft.Compute/virtualMachines@2021-07-01' = [for i in range(
       vmSize: vmSize
     }
     storageProfile: {
-      imageReference: {
-        sharedGalleryImageId: resourceId(galleryNameResourceGroupName,'Microsoft.Compute/galleries/images/versions', galleryName, galleryImageDefinitionName, galleryImageVersionName)
-                 
+      imageReference: {       
+        id: resourceId(galleryNameResourceGroupName,'Microsoft.Compute/galleries/images/versions', galleryName, galleryImageDefinitionName, galleryImageVersionName)                 
       }
       osDisk: {
         osType: 'Windows'

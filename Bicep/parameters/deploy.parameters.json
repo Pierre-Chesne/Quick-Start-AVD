@@ -5,8 +5,38 @@
         "numbersOfVm": {
             "value": 2
         },
-        "hostName": {
+        "hostNamePrefix": {
             "value": "Host"
+        },
+        "userNameLocal": {
+            "value": "pierrc"
+        },
+        "pwdLocal": {
+            "value": "Password123$"
+        },
+        "domainName": {
+            "value": "ma-pme.local"
+        },
+        "domainUsername": {
+            "value": "pierrc@ma-pme.local"
+        },
+        "domainUsernamePassword": {
+            "value": "Satanas@007"
+        },
+        "vmSize": {
+            "value": "Standard_D2s_v3"
+        },
+        "galleryNameResourceGroupName": {
+            "value": "Rg-AVD-Images-00001"
+        },
+        "galleryName": {
+            "value": "aibsig00001"
+        },
+        "galleryImageDefinitionName": {
+            "value": "win10avdoct"
+        },
+        "galleryImageVersionName": {
+            "value": "0.24956.1975"
         },
         "location": {
             "value": "westeurope"
@@ -15,7 +45,7 @@
             "value": "RG-ID-AVD"
         },
         "hostPoolName": {
-            "value": "HostPool-ID"
+            "value": "HostPool-0"
         },
         "hostPoolType": {
             "value": "pooled"
@@ -30,7 +60,7 @@
             "value": true
         },
         "tokenExpirationTime": {
-            "value": ""
+            "value": "2022-01-25T15:31:54.0963532Z"
         },
         "applicationGroupType": {
             "value": "Desktop"

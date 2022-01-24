@@ -1,5 +1,5 @@
 param numbersOfVm int
-param hostName string
+param hostNamePrefix string
 
 param virtualNetworkResourceGroupName string
 param subnetName string
@@ -8,7 +8,7 @@ param virtualNetworkName string
 var subnet_id = resourceId(virtualNetworkResourceGroupName, 'Microsoft.Network/virtualNetworks/subnets', virtualNetworkName, subnetName)
 
 resource nicX 'Microsoft.Network/networkInterfaces@2021-03-01' = [for i in range(0, numbersOfVm): {
-  name: '${hostName}-${i}-nic'
+  name: '${hostNamePrefix}-${i}-nic' // '${hostNamePrefix}-${i}-nic'
   location: resourceGroup().location
   properties: {
     ipConfigurations: [
