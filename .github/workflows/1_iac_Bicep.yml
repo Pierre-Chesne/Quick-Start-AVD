@@ -1,4 +1,4 @@
-name: Deploiement d'une infra Azure Virtual Desktop
+name: Deploiement AVD & Bicep
 
 on: workflow_dispatch
 
