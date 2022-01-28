@@ -31,13 +31,17 @@ jobs:
           echo "::set-output name=content::$($Expiration)"
         id: var_expiration
 
+      - name: Test du temp d'expiration du Token (host Pool)
+        run: |
+          echo "The string is: ${{ steps.var_expiration.outputs.content }}"
+
       - name: Validation du template Bicep
         run: |
           az deployment sub validate \
             --location ${{ env.LOCATION }} \
             --template-file ./Bicep/main.bicep \
-            --parameters ./Bicep/parameters/deploy.parameters.json
-#'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}'
+            --parameters ./Bicep/parameters/deploy.parameters.json \
+            'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}'
 
         
 
