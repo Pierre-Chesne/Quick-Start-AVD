@@ -3,7 +3,7 @@ name: Deploiement AVD & Bicep
 on: workflow_dispatch
 
 env:
-  LOCATION: westeurope
+  LOCATION: "westeurope"
 
 jobs:
 
@@ -36,7 +36,8 @@ jobs:
           az deployment sub validate \
             --location ${{ env.LOCATION }} \
             --template-file ./Bicep/main.bicep \
-            --parameters./Bicep/parameters/deploy.parameters.json 'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}'
+            --parameters./Bicep/parameters/deploy.parameters.json
+#'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}'
 
         
 
