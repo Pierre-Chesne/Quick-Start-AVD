@@ -1,17 +1,11 @@
 name: Deploiement AVD & Bicep
-
 on: workflow_dispatch
-
 env:
   LOCATION: "westeurope"
-
 jobs:
-
   Test_Bicep:
     runs-on: ubuntu-latest
-
     steps:
-
       - name: Checkout du repo 
         uses: actions/checkout@v2
 
@@ -45,17 +39,12 @@ jobs:
             'pwdLocal=${{ secrets.AZURE_PWD_LOCAL }}' \
             'domainUsernamePassword=${{ secrets.AZURE_DOMAIN_USERNAME_PASSWORD }}'
 
-        
-
-
-#          az deployment sub create --location ${{ env.LOCATION}} \
-#            --template-file ./Bicep/main.bicep \
-#            --parameters ./Bicep/parameters/deploy.parameters.jsom 'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}' \
-#            'tokenExpirationTime= "{{ ${{ steps.var_expiration.outputs.content }} }}"' \
-#            --debug
-          
-
-
-
-
-               
+      - name: What If du template Bicep
+        run: |
+          az deployment sub what-if \
+            --location ${{ env.LOCATION }} \
+            --template-file ./Bicep/main.bicep \
+            --parameters ./Bicep/parameters/deploy.parameters.json \
+            'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}' \
+            'pwdLocal=${{ secrets.AZURE_PWD_LOCAL }}' \
+            'domainUsernamePassword=${{ secrets.AZURE_DOMAIN_USERNAME_PASSWORD }}'
