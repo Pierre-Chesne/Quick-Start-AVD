@@ -52,7 +52,7 @@ jobs:
   Infra_Deployment:
     runs-on: ubuntu-latest
     needs: Test_Template_Bicep
-    enviroment:
+    environment:
       name: Deployment
     
     steps:
