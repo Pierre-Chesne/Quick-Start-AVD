@@ -75,7 +75,7 @@ jobs:
         run: |
           echo "The string is: ${{ steps.var_expiration.outputs.content }}"
 
-      - name: Validation du template Bicep
+      - name: Deploiement du template Bicep
         run: |
           az deployment sub create \
             --location ${{ env.LOCATION }} \
