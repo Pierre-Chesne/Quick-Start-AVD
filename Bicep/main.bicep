@@ -1,5 +1,6 @@
 targetScope = 'subscription'
 
+// Parametre ./parameters/deploy.parameters.json
 param location string
 param rgName string
 param tokenExpirationTime string
@@ -132,8 +133,8 @@ module agentsAVDX 'agent_AVD.bicep' = {
   name: 'deployagentsAVDX'
   params: {
     numbersOfVm: numbersOfVm
-    hostNamePrefix: hostNamePrefix
-    hostPoolName: hostPoolName    
+    hostNamePrefix: hostNamePrefix    
+    hostpool0Reg: hostPool0.outputs.hosPool0Reg.token    
   }
   dependsOn: [
     domainJoinX

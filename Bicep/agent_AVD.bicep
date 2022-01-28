@@ -1,6 +1,6 @@
 param numbersOfVm int
 param hostNamePrefix string
-param hostPoolName string
+param hostpool0Reg string
 
 resource dscAgentsAVD 'Microsoft.Compute/virtualMachines/extensions@2021-07-01' = [for i in range(0, numbersOfVm): {
   name: '${hostNamePrefix}-${i}/dscextension'
@@ -15,7 +15,7 @@ resource dscAgentsAVD 'Microsoft.Compute/virtualMachines/extensions@2021-07-01' 
       configurationFunction: 'Configuration.ps1\\AddSessionHost'
       properties: {
         hostPoolName: '${hostNamePrefix}-${i}'
-        registrationInfoToken: '${hostPoolName}.properties.registrationInfo.token'
+        registrationInfoToken: hostpool0Reg
         
       }
     }

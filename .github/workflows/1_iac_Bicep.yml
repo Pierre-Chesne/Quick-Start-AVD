@@ -1,0 +1,45 @@
+name: Deploiement d'une infra Azure Virtual Desktop
+
+on: workflow_dispatch
+
+env:
+  LOCATION: westeurope
+
+jobs:
+
+  Test_Bicep:
+    runs-on: ubuntu-latest
+
+    steps:
+#      - name: Creation du temp d'expiration du Token (host Pool)
+#        shell: pwsh
+#        run: |
+#          $Expiration=$((get-date).ToUniversalTime().AddHours(2).ToString('yyyy-MM-ddTHH:mm:ss.fffffffZ'))
+#          echo "::set-output name=content::$($Expiration)"
+#        id: var_expiration
+
+      - name: Checkout du repo 
+        uses: actions/checkout@v2
+
+      - name: Login Azure
+        uses: Azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: Lint 
+        run: |
+          az bicep build --file ./Bicep/main.bicep
+        
+
+
+#          az deployment sub create --location ${{ env.LOCATION}} \
+#            --template-file ./Bicep/main.bicep \
+#            --parameters ./Bicep/parameters/deploy.parameters.jsom 'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}' \
+#            'tokenExpirationTime= "{{ ${{ steps.var_expiration.outputs.content }} }}"' \
+#            --debug
+          
+
+
+
+
+               

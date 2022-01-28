@@ -23,4 +23,4 @@ resource hostPool0 'Microsoft.DesktopVirtualization/hostPools@2021-09-03-preview
 }
 
 output hostPool0 string = hostPool0.id
-//output hostPoolName string = hostPoolName
+output hosPool0Reg object = hostPool0.properties.registrationInfo
