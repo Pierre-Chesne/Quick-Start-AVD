@@ -41,7 +41,9 @@ jobs:
             --location ${{ env.LOCATION }} \
             --template-file ./Bicep/main.bicep \
             --parameters ./Bicep/parameters/deploy.parameters.json \
-            'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}'
+            'tokenExpirationTime=${{ steps.var_expiration.outputs.content }}' \
+            'pwdLocal=${{ secrets.AZURE_PWD_LOCAL }}' \
+            'domainUsernamePassword=${{ secrets.AZURE_DOMAIN_USERNAME_PASSWORD }}'
 
         
 

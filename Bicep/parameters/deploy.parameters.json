@@ -12,7 +12,7 @@
             "value": "pierrc"
         },
         "pwdLocal": {
-            "value": "Password123$"
+            "value": ""
         },
         "domainName": {
             "value": "ma-pme.local"
@@ -21,7 +21,7 @@
             "value": "pierrc@ma-pme.local"
         },
         "domainUsernamePassword": {
-            "value": "Satanas@007"
+            "value": ""
         },
         "vmSize": {
             "value": "Standard_D2s_v3"
