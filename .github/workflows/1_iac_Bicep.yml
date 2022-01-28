@@ -77,7 +77,7 @@ jobs:
 
       - name: Validation du template Bicep
         run: |
-          az deployment create \
+          az deployment sub create \
             --location ${{ env.LOCATION }} \
             --template-file ./Bicep/main.bicep \
             --parameters ./Bicep/parameters/deploy.parameters.json \
