@@ -1,0 +1,18 @@
+# workflow github action 
+name: test
+
+on:
+  issues:
+    types: [closed]
+    assignees:
+      - Pierre-Chesne
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      run: echo Hello, world!
+
+
+    
