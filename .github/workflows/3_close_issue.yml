@@ -1,6 +1,5 @@
 # workflow github action 
 name: test
-
 on:
   issues:
     types: [closed]
@@ -10,7 +9,6 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-
     steps:
       run: echo Hello, world!
 
