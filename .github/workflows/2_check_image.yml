@@ -1,0 +1,58 @@
+name: Check Image AVD "21h1-evd-o365pp"
+
+on: 
+  workflow_dispatch:
+
+  schedule:
+    - cron: 30 23 1 * *
+
+jobs:
+  check_image:
+    runs-on: ubuntu-latest
+    steps:
+      
+    - name: Login to Azure
+      uses: Azure/login@v1
+      with:        
+        creds: ${{secrets.AZURE_CREDENTIALS}}
+
+    - name: Check Image
+      run: |
+        Latest=$(az vm image list \
+          --location westeurope \
+          --publisher MicrosoftWindowsDesktop \
+          --offer office-365 \
+          --sku evd \
+          --all \
+          --query "[?sku=='21h1-evd-o365pp'].version" \
+          --output tsv | sort -u | tail -n 1)
+        echo "::set-output name=version::$Latest"  
+      id: var_version
+
+    - name: Recuperation de la date
+      run: | 
+        echo "::set-output name=today::$(date "+%Y/%m/%d")"
+      id: var_date
+
+    - name: Creation Issue
+      uses: actions-ecosystem/action-create-issue@v1
+      with:
+        github_token: ${{ secrets.github_token }}
+        title: Check image ${{ steps.var_date.outputs.today }}
+        body: |
+          ## Version Image AVD
+          - [ ] Checker la dernière version: ${{ steps.var_version.outputs.version }}
+          
+          Exemple:
+          az vm image list \
+          --location westeurope \
+          --publisher MicrosoftWindowsDesktop \
+          --offer office-365 \
+          --sku evd \
+          --all
+
+        assignees: |
+          Pierre-Chesne        
+
+        labels: |
+          AVD
