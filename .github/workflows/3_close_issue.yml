@@ -25,6 +25,6 @@ jobs:
             --offer office-365 \
             --sku evd \
             --all \
-            --query "[?sku=='${{ env.SKU'].version" \
+            --query "[?sku=='${{ env.SKU }}.version" \
             --output tsv | sort -u | tail -n 1)
           echo $Latest
