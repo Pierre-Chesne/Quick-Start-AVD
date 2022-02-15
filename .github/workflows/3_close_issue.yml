@@ -12,12 +12,26 @@ jobs:
   check_image:
     runs-on: ubuntu-latest
     steps:
+
+    - name: Check Image
+      run: |
+        Latest=$(az vm image list \
+          --location westeurope \
+          --publisher MicrosoftWindowsDesktop \
+          --offer office-365 \
+          --sku evd \
+          --all \
+          --query "[?sku=='${{ env.SKU }}.version" \
+          --output tsv | sort -u | tail -n 1)
+        echo "::set-output name=version::$Latest"  
+      id: var_version
+
       - name: Slack Notification build ok
         uses: tokorom/action-slack-incoming-webhook@main
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
-          text: Action GitHub -> "repo Quick-Start-AVD " -> Check immage OK !
+          text: Action GitHub -> "repo Quick-Start-AVD " -> Check immage ${{ steps.var_version.outputs.version }} !
           attachments: |
             [
               {
