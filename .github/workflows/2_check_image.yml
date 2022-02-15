@@ -5,7 +5,6 @@ env:
 
 on: 
   workflow_dispatch:
-
   schedule:
     - cron: 30 23 1 * *
 
@@ -53,6 +52,8 @@ jobs:
           --offer office-365 \
           --sku evd \
           --all
+
+          - Close Issue with comment: "Ok check image"
 
         assignees: |
           Pierre-Chesne        

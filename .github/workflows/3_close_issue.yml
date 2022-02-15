@@ -9,12 +9,23 @@ on:
 
 jobs:
   
-  build:
+  Test:
     runs-on: ubuntu-latest
   
-    steps:
-     - name: Run a one-line script
-       run: echo Issue 
+    check_image:
+    - name: Login to Azure
+      uses: Azure/login@v1
+      with:        
+        creds: ${{secrets.AZURE_CREDENTIALS}}
 
-
-    
+    - name: Check Image
+      run: |
+        Latest=$(az vm image list \
+          --location westeurope \
+          --publisher MicrosoftWindowsDesktop \
+          --offer office-365 \
+          --sku evd \
+          --all \
+          --query "[?sku=='${{ env.SKU'].version" \
+          --output tsv | sort -u | tail -n 1)
+        echo "::set-output name=version::$Latest"
