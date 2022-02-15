@@ -9,12 +9,9 @@ on:
 
 jobs:
   
-  Test:
-    runs-on: ubuntu-latest  
-    check_image:
-
+  check_image:
+    runs-on: ubuntu-latest
     steps:
-
       - name: Login to Azure
         uses: Azure/login@v1
         with:        
@@ -30,4 +27,4 @@ jobs:
             --all \
             --query "[?sku=='${{ env.SKU'].version" \
             --output tsv | sort -u | tail -n 1)
-          echo "::set-output name=version::$Latest"
+          echo $Latest
