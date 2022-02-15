@@ -28,7 +28,7 @@ jobs:
             --offer office-365 \
             --sku evd \
             --all \
-            --query "[?sku==21h1-evd-o365pp].version" \
+            --query "[?sku=='21h1-evd-o365pp'].version" \
             --output tsv | sort -u | tail -n 1)
           echo "::set-output name=version::$Latest"  
         id: var_version
