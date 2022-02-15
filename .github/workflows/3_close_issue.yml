@@ -1,8 +1,5 @@
 name: Trigger Workflow after "Close issue" comment
 
-env:
-  SKU: "21h1-evd-o365pp"
-
 on:
   issue_comment:
     branches:
