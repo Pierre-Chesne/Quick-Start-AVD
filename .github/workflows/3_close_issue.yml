@@ -12,19 +12,17 @@ jobs:
   check_image:
     runs-on: ubuntu-latest
     steps:
-      - name: Login to Azure
-        uses: Azure/login@v1
-        with:        
-          creds: ${{secrets.AZURE_CREDENTIALS}}
-
-      - name: Check Image
-        run: |
-          Latest=$(az vm image list \
-            --location westeurope \
-            --publisher MicrosoftWindowsDesktop \
-            --offer office-365 \
-            --sku evd \
-            --all \
-            --query "[?sku=='${{ env.SKU }}.version" \
-            --output tsv | sort -u | tail -n 1)
-          echo $Latest
+      - name: Slack Notification build ok
+        uses: tokorom/action-slack-incoming-webhook@main
+        env:
+          INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        with:
+          text: Action GitHub -> "repo github-WVD " -> Build Packer OK !
+          attachments: |
+            [
+              {
+                "color": "good",
+                "author_name": "${{ github.actor }}",
+                "author_icon": "${{ github.event.sender.avatar_url }}"
+              }
+            ]
