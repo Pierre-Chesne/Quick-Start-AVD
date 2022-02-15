@@ -17,7 +17,7 @@ jobs:
         env:
           INCOMING_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         with:
-          text: Action GitHub -> "repo github-WVD " -> Build Packer OK !
+          text: Action GitHub -> "repo Quick-Start-AVD " -> Check immage OK !
           attachments: |
             [
               {
