@@ -1,8 +1,5 @@
 name: Check Image AVD "21h1-evd-o365pp"
 
-env:
-  SKU: "21h1-evd-o365pp"
-
 on: 
   workflow_dispatch:
   schedule:
