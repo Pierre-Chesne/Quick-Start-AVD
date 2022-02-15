@@ -1,5 +1,8 @@
 name: Trigger Workflow after "Close issue" comment
 
+env:
+  SKU: "21h1-evd-o365pp"
+
 on:
   issue_comment:
     branches:
@@ -16,7 +19,7 @@ jobs:
         uses: Azure/login@v1
         with:        
           creds: ${{secrets.AZURE_CREDENTIALS}}
-          
+
       - name: Check Image
         run: |
           Latest=$(az vm image list \
