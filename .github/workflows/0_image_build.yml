@@ -41,7 +41,7 @@ jobs:
           $timeInt=$(get-date -UFormat "%s")
           $imageRoleDefName="Azure Image Builder Image Def"+$timeInt
           $idenityName="aibIdentity"+$timeInt
-          New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName
+          New-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName -Location $location
 
           $idenityNamePrincipalId=$(Get-AzUserAssignedIdentity -ResourceGroupName $imageResourceGroup -Name $idenityName).PrincipalId
           $aibRoleImageCreationUrl="https://raw.githubusercontent.com/azure/azvmimagebuilder/master/solutions/12_Creating_AIB_Security_Roles/aibRoleImageCreation.json"
